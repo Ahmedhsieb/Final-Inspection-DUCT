@@ -1,4 +1,4 @@
-# Project Name
+# Final Inspection DUCT
 
 A Laravel-based project that converts an inspection sheet to a web form, managing data across two tables for inspection
 parameters and production orders.
@@ -8,7 +8,7 @@ parameters and production orders.
 1. [Installation](#installation)
 2. [Approach and Thought Process](#approach-and-thought-process)
 3. [Projects Routes](#projects-routes)
-3. [Database Schema and ERD](#database-schema-and-erd)
+3. [Database Schema](#database-schema)
 4. [Features](#features)
 5. [Project Pages](#project-pages)
 
@@ -113,7 +113,7 @@ To set up the project locally, follow these steps:
 
 ---
 
-### Database Schema and ERD
+### Database Schema
 
 The following is the schema of the database:
 
