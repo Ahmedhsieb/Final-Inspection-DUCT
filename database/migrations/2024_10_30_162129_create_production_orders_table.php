@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('production_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('work order');
+            $table->integer('production_order');
+            $table->string('work_order');
             $table->date('date');
             $table->string('project');
             $table->string('shape');
             $table->string('customer');
-            $table->string('quality inspector');
-            $table->string('signature');
-            $table->string('approved by')->nullable();
+            $table->string('quality_inspector');
+            $table->string('approved_by')->nullable();
+            $table->text('parameters')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

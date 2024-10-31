@@ -9,13 +9,27 @@ class ProductionOrder extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'work order',
+        'production_order',
+        'work_order',
         'date',
         'project',
         'shape',
         'customer',
-        'quality inspector',
-        'signature',
-        'approved by',
+        'quality_inspector',
+        'approved_by',
+        'parameters'
     ];
+
+
+    // save the parameters of each order as json
+    public function setParametersAttribute($value)
+    {
+        $this->attributes['parameters'] =  serialize($value);
+    }
+
+    // return the parameters as array
+    public function getParametersAttribute($value)
+    {
+        return unserialize($value);
+    }
 }
