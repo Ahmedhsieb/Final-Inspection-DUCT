@@ -11,6 +11,30 @@
 
         <table class="table table-hover text-center">
             <thead>
+            {{--            Search --}}
+            <tr>
+                {{--                search options--}}
+                <div class="mb-3 row">
+                    <label for="searchby" class="col-sm-2 col-form-label">Search By</label>
+                    <div class="col-sm-10">
+                        <select class="form-select mb-2" onchange="search()" name="searchby" id="searchby">
+                            <option value="Production Order">Production Order#</option>
+                            <option value="Work Order">Work Order#</option>
+                            <option value="Date">Date</option>
+                            <option value="Customer">Customer</option>
+                            <option value="Project">Project</option>
+                            <option value="Shape">Shape</option>
+                            <option value="Quality Inspector">Quality Inspector</option>
+                            <option value="Approved By">Approved By</option>
+                        </select>
+                    </div>
+                </div>
+                {{--                search input--}}
+                <input type="text" id="search" onkeyup="search()" class="form-control mb-3" placeholder="Search">
+
+            </tr>
+
+            {{--            Data--}}
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Production Order#</th>
@@ -26,18 +50,18 @@
                 <th scope="col">Permanently Delete</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="data">
             @foreach($orders as $i=>$order)
             <tr>
                 <th scope="row">{{++$i}}</th>
-                <td>{{$order->production_order}}</td>
-                <td>{{$order->work_order}}</td>
-                <td>{{$order->date}}</td>
-                <td>{{$order->customer}}</td>
-                <td>{{$order->project}}</td>
-                <td>{{$order->shape}}</td>
-                <td>{{$order->quality_inspector}}</td>
-                <td>{{$order->approved_by}}</td>
+                <td id="Production Order">{{$order->production_order}}</td>
+                <td id="Work Order">{{$order->work_order}}</td>
+                <td id="Date">{{$order->date}}</td>
+                <td id="Customer">{{$order->customer}}</td>
+                <td id="Project">{{$order->project}}</td>
+                <td id="Shape">{{$order->shape}}</td>
+                <td id="Quality Inspector">{{$order->quality_inspector}}</td>
+                <td id="Approved By">{{$order->approved_by}}</td>
                 <td>
                     <form action="{{route('order.show', ['order' => $order->id])}}" method="GET">
                         @csrf
@@ -64,3 +88,27 @@
         </table>
     </div>
 @endsection
+
+@push('js')
+    <script>
+
+        function search() {
+            const search = document.getElementById('search').value;
+            const searchBy = document.getElementById('searchby').value;
+            const rows = document.querySelectorAll('#data tr');
+
+            rows.forEach(row=>{
+                const data = row.querySelector(`td[id="${searchBy}"]`);
+                if (data){
+                    const cellText = data.textContent.toLowerCase();
+                    if(cellText.includes(search.toLowerCase())){
+                        row.style.display = '';
+                    }else {
+                        row.style.display = 'none';
+                    }
+                }
+            })
+        }
+
+    </script>
+@endpush

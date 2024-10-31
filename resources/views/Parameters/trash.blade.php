@@ -11,6 +11,14 @@
 
         <table class="table table-hover">
             <thead>
+            {{--            Search --}}
+            <tr>
+                {{--                search input--}}
+                <input type="text" id="search" onkeyup="search()" class="form-control mb-3" placeholder="Search">
+
+            </tr>
+
+            {{--            Data--}}
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Parameter</th>
@@ -18,11 +26,11 @@
                 <th scope="col">Delete</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="data">
             @foreach($params as $i=>$param)
             <tr>
                 <th scope="row">{{++$i}}</th>
-                <td>{{$param->parameter}}</td>
+                <td id="parameter">{{$param->parameter}}</td>
                 <td>
                     <form action="{{route('param.restore', ['param' => $param->id])}}" method="POST">
                         @csrf
@@ -42,3 +50,28 @@
         </table>
     </div>
 @endsection
+
+
+@push('js')
+    <script>
+
+        function search() {
+            const search = document.getElementById('search').value;
+            const rows = document.querySelectorAll('#data tr');
+
+            rows.forEach(row=>{
+                const data = row.querySelector(`[id="parameter"]`);
+                if (data){
+                    const cellText = data.textContent.toLowerCase();
+                    if(cellText.includes(search.toLowerCase())){
+                        row.style.display = '';
+                    }else {
+                        row.style.display = 'none';
+                    }
+                }
+            })
+        }
+
+    </script>
+@endpush
+

@@ -67,9 +67,8 @@ class InspectionParamController extends Controller
      */
     public function destroy(string $id)
     {
-        $parameter = InspectionParameter::find($id);
         InspectionParameter::where('id', $id)->delete();
-        return redirect('param')->with('success', "{$parameter->parameter} Temporarily Deleted Successfully");
+        return redirect('param')->with('success', "Parameter Temporarily Deleted Successfully");
     }
 
     /**
@@ -77,12 +76,11 @@ class InspectionParamController extends Controller
      */
     public function forceDelete(string $id)
     {
-        $parameter = InspectionParameter::onlyTrashed()->where('id', $id)->first();
         InspectionParameter::where('id', $id)->forceDelete();
         if (isset($_GET['trash'])) {
-            return redirect("param?trash='true'")->with('success', "{$parameter->parameter} Permanently Deleted Successfully");
+            return redirect("param?trash='true'")->with('success', "Parameter Permanently Deleted Successfully");
         }
-        return redirect("param")->with('success', "{$parameter->parameter} Permanently Deleted Successfully");
+        return redirect("param")->with('success', "Parameter Permanently Deleted Successfully");
     }
 
     /**
@@ -91,7 +89,6 @@ class InspectionParamController extends Controller
     public function restoreData(string $id)
     {
         InspectionParameter::where('id', $id)->restore();
-        $parameter = InspectionParameter::find($id);
-        return redirect("param?trash='true'")->with('success', "{$parameter->parameter} Restored Successfully");
+        return redirect("param?trash='true'")->with('success', "Parameter Restored Successfully");
     }
 }

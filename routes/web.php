@@ -9,8 +9,6 @@ Route::get('/',function ()
     return redirect('order');
 });
 
-//Route::post('/submit-signature', [\App\Http\Controllers\TestController::class, 'submitSignature']);
-
 Route::resource('order', TaskController::class);
 Route::get('order/trash', [TaskController::class, 'trash'])->name('order.trash');
 Route::delete('order/forceDelete/{order}', [TaskController::class, 'forceDelete'])->name('order.forceDelete');

@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\InspectionParameter;
 use Illuminate\Database\Seeder;
+
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +14,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $parameter = [
+            'VISUAL DEATELS',
+            'SIZE',
+            'JOINTS',
+            'CORNER FIXING',
+            'FLANGE FIXING',
+            'S & C CLIPS',
+            'ANGLE BAR FIXING',
+            'Insulation',
+            'OVER ALL WORKMANSHIP',
+            'SEALANT',
+            'PAINT SILVER',
+            'WHITE / BLACK SPOT FOR SHEET DUCT',
+            'Cleaning',
+            'STIKERS',
+        ];
+        for ($i = 0 ; $i<count($parameter) ; $i++){
+            InspectionParameter::create([
+                'parameter' => $parameter[$i],
+            ]);
+        }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
     }
 }

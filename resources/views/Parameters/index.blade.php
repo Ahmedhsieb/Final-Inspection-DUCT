@@ -11,6 +11,13 @@
 
         <table class="table table-hover text-center">
             <thead>
+            {{--            Search --}}
+            <tr>
+                {{--                search input--}}
+                <input type="text" id="search" oninput="search()" class="form-control mb-3" placeholder="Search">
+            </tr>
+
+            {{--            Data--}}
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Parameter</th>
@@ -19,34 +26,58 @@
                 <th scope="col">Permanently Delete</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="data">
             @foreach($params as $i=>$param)
-            <tr>
-                <th scope="row">{{++$i}}</th>
-                <td>{{$param->parameter}}</td>
-                <td>
-                    <form action="{{route('param.edit', ['param' => $param->id])}}" method="GET">
-                        @csrf
-                        <input type="submit" class="btn btn-primary" value="Update">
-                    </form>
-                </td>
-                <td>
-                    <form action="{{route('param.destroy', ['param' => $param->id])}}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <input type="submit" class="btn btn-secondary" value="Delete">
-                    </form>
-                </td>
-                <td>
-                    <form action="{{route('param.forceDelete', ['param' => $param->id])}}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <input type="submit" class="btn btn-danger" value="Delete">
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <th scope="row">{{++$i}}</th>
+                    <td id="parameter">{{$param->parameter}}</td>
+                    <td>
+                        <form action="{{route('param.edit', ['param' => $param->id])}}" method="GET">
+                            @csrf
+                            <input type="submit" class="btn btn-primary" value="Update">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{route('param.destroy', ['param' => $param->id])}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" class="btn btn-secondary" value="Delete">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{route('param.forceDelete', ['param' => $param->id])}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                        </form>
+                    </td>
+                </tr>
             @endforeach
             </tbody>
         </table>
     </div>
 @endsection
+
+@push('js')
+    <script>
+
+        function search() {
+            const search = document.getElementById('search').value;
+            const searchBy = 'parameter';
+            const rows = document.querySelectorAll('#data tr');
+
+            rows.forEach(row => {
+                const data = row.querySelector(`td[id="${searchBy}"]`);
+                if (data) {
+                    const cellText = data.textContent.toLowerCase();
+                    if (cellText.includes(search)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            })
+        }
+
+    </script>
+@endpush

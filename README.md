@@ -1,66 +1,170 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Project Name
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based project that converts an inspection sheet to a web form, managing data across two tables for inspection
+parameters and production orders.
 
-## About Laravel
+## Table of Contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. [Installation](#installation)
+2. [Approach and Thought Process](#approach-and-thought-process)
+3. [Projects Routes](#projects-routes)
+3. [Database Schema and ERD](#database-schema-and-erd)
+4. [Features](#features)
+5. [Project Pages](#project-pages)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Installation
 
-## Learning Laravel
+To set up the project locally, follow these steps:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yourusername/yourprojectname.git
+   cd yourprojectname
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2. **Install Dependencies**:
+   Make sure to have Composer installed, then run:
+   ```bash
+   composer install
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. **Set up your database credentials in the `.env` file**:
+   ```plaintext
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=FinalInspectionDUCT
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
 
-## Laravel Sponsors
+4. **Generate Application Key**:
+   ```bash
+   php artisan key:generate
+   ```
+   
+5. **Run Migrations**:
+   Create the database tables:
+   ```bash
+   php artisan migrate
+   ```
+   
+6. **Generate Parameters For Test**:
+   ```bash
+    php artisan db:seed
+   ```
+   
+7. **Serve the Application**:
+   Start the development server:
+   ```bash
+   php artisan serve
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+   The application will be available at `http://127.0.0.1:8000`.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Projects Routes
+#### Order
+1.  GET|HEAD        `order` .................................................... `order.index` › TaskController@index
+2.  POST            `order` .................................................... `order.store` › TaskController@store
+3.  GET|HEAD        `order/create` ........................................... `order.create` › TaskController@create
+4.  DELETE          `order/forceDelete/{order}` .................... `order.forceDelete` › TaskController@forceDelete
+5.  POST            `order/restore/{order}` ............................ `order.restore` › TaskController@restoreData
+6.  GET|HEAD        `order/trash` .............................................. `order.trash` › TaskController@trash
+7.  GET|HEAD        `order/{order}` .............................................. `order.show` › TaskController@show
+8.  PUT|PATCH       `order/{order}` .......................................... `order.update` › TaskController@update
+9.  DELETE          `order/{order}` ........................................ `order.destroy` › TaskController@destroy
+10. GET|HEAD        `order/{order}/edit` ......................................... `order.edit` › TaskController@edit
 
-## Contributing
+#### Parameter
+1.  GET|HEAD        `param` .................................................... `param.index` › InspectionParamController@index
+2.  POST            `param` .................................................... `param.store` › InspectionParamController@store
+3.  GET|HEAD        `param/create` ........................................... `param.create` › InspectionParamController@create
+4.  DELETE          `param/forceDelete/{param}` .................... `param.forceDelete` › InspectionParamController@forceDelete
+5.  POST            `param/restore/{param}` ............................ `param.restore` › InspectionParamController@restoreData
+6.  GET|HEAD        `param/trash` .............................................. `param.trash` › InspectionParamController@trash
+7.  GET|HEAD        `param/{param}` .............................................. `param.show` › InspectionParamController@show
+8.  PUT|PATCH       `param/{param}` .......................................... `param.update` › InspectionParamController@update
+9.  DELETE          `order/{order}` ........................................ `param.destroy` › InspectionParamController@destroy
+10. GET|HEAD        `param/{param}/edit` ......................................... `param.edit` › InspectionParamController@edit
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Approach and Thought Process
 
-## Code of Conduct
+1. **Design**: The goal was to replicate a manual inspection sheet in a digital format, capturing production orders and
+   inspection parameters efficiently.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. **Database Structure**:
+    - **Normalization**: The database is designed with two tables: one for inspection parameters (`id`, `parameter`) and
+      another for production orders, which stores all production data.
+    - **Parameter Storage**: Parameters are serialized as arrays within the production orders table for efficient
+      storage and retrieval.
 
-## Security Vulnerabilities
+3. **CRUD Operations**:
+    - Two separate CRUD resources controllers were created, one for each table.
+    - Implemented **soft deletes** for each model to handle deletion without permanently removing records, allowing for
+      easy recovery from a trash page.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. **Page Structure and Navigation**:
+    - Developed pages for creating, editing, listing, and trashing records in each table.
+    - Integrated a search feature for easy retrieval of both orders and parameters.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Database Schema and ERD
+
+The following is the schema of the database:
+
+- **Tables**:
+    1. **Inspection Parameters**:
+        - `id`: Primary key
+        - `parameter`: String value representing inspection criteria.
+    2. **Production Orders**:
+        - `id`: Primary key
+        - `production_order`: Generated random number for production order.
+        - `work_order`: Generated random number formatted by the date for work order.
+        - `date`: The date of the order.
+        - `project`: Project name.
+        - `shape`: Shape name.
+        - `customer`: Customer name.
+        - `quality_inspector`: Quality Inspector name.
+        - `approved_by`: The name of the person who approved the order.
+        - `parameter`: Stores serialized parameters as an array along with production order data.
+
+Both tables have `updated_at`, `deleted_at`, and `created_at` columns for tracking them.
+
+
+### Features
+
+- **CRUD Operations**: Complete create, read, update, and delete functionalities for inspection parameters and
+  production orders.
+- **Soft Deletes**: Models and migrations incorporate soft delete functionality, enabling record restoration from the
+  trash.
+- **Search Functionality**: Ability to search for specific production orders and parameters.
+- **Serialized Data Storage**: Parameters are stored as serialized arrays within the production orders table, optimizing
+  space.
+- **User-friendly Pages**: Simple and intuitive forms and displays for each CRUD action.
+
+---
+
+### Project Pages
+
+1. **Show Data**:
+    - Overview of specific order data.
+
+2. **Inspection Parameters List**:
+    - View, search, and manage inspection parameters.
+
+3. **Production Orders List**:
+    - View, search, and manage production orders, including their serialized parameters.
+
+4. **Create/Edit Pages**:
+    - Dedicated forms to create or edit inspection parameters and production orders.
+
+5. **Trash Pages**:
+    - Lists soft-deleted records for inspection parameters and production orders, with options to restore or permanently
+      delete.
+
+---
