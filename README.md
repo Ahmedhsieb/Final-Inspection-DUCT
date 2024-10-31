@@ -20,8 +20,8 @@ To set up the project locally, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/yourprojectname.git
-   cd yourprojectname
+   git clone https://github.com/Ahmedhsieb/Final-Inspection-DUCT.git
+   cd Final-Inspection-DUCT
    ```
 
 2. **Install Dependencies**:
